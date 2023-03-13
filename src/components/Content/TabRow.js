@@ -17,10 +17,10 @@ function TabRow({ el, row, index, id, content }) {
 
     return (
         <>
-            <TableCell component="th" scope="row" > {el} </TableCell>
+            <TableCell  component="th" scope="row" > {el} </TableCell>
 
             {index === row.length - 1 ?
-                <TableCell component="th" scope="row" >
+                <TableCell align="right" component="th" scope="row" >
                     <IconButton onClick={deleteSomeData} aria-label="delete">
                         <DeleteIcon />
                     </IconButton>
