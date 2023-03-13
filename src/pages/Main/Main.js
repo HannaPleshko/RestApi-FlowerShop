@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Content from "../components/Content/Content";
-import Header from "../components/Header/Header";
+import Content from "../../components/Content/Content";
+import Header from "../../components/Header/Header";
 
 function Main() {
-    const [content, setContent] = useState('Providers')
+    const [content, setContent] = useState('PROVIDER')
 
     return (
         <>

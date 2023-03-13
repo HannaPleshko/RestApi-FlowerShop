@@ -1,4 +1,16 @@
 import Button from '@mui/material/Button';
+import { styled } from '@mui/system';
+
+const Btn = styled(Button)`
+  color: #1667b8;
+  width: 100px;
+  
+    &:hover {
+        position:relative;
+        top: 1px;
+    }
+
+`;
 
 function HeaderItem({ title, setContent }) {
 
@@ -8,7 +20,7 @@ function HeaderItem({ title, setContent }) {
 
     return (
         <div>
-            <Button onClick={showContent} variant="outlined">{title}</Button>
+            <Btn onClick={showContent}>{title}</Btn>
         </div>
     )
 }

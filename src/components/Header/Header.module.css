@@ -7,4 +7,11 @@
 .block-nav input {
    cursor: pointer;
 }
+.block-nav .img {
+  background-image: url(./assets/HS-removebg-preview.png);
+  width: 200px;
+  height: 80px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
 

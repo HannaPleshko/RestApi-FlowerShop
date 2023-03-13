@@ -1,0 +1,11 @@
+.tabs-content {
+    width: 50%;
+    margin-top: 50px;
+    color: #627d94;
+}
+
+.wrapper h1 {
+    text-align: center;
+    font: 400 25px 'Roboto';
+    margin: 20px 0;
+}
