@@ -1,10 +1,8 @@
-import * as React from 'react';
+import { useState } from 'react';
 import style from './Content.module.css';
 import { styled } from '@mui/system';
 import TabsUnstyled from '@mui/base/TabsUnstyled';
 import TabsListUnstyled from '@mui/base/TabsListUnstyled';
-import TabPanelUnstyled from '@mui/base/TabPanelUnstyled';
-import { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
 import ModalTab from '../../components/ModalTab/ModalTab';
 
@@ -60,18 +58,6 @@ const Tab = styled(TabUnstyled)`
 
 `;
 
-// const TabPanel = styled(TabPanelUnstyled)(
-//     ({ theme }) => `
-//   width: 100%;
-//   font-size: 0.875rem;
-//   padding: 20px 12px;
-//   background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-//   border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-//   border-radius: 12px;
-//   opacity: 0.6;
-//   `,
-// );
-
 const TabsList = styled(TabsListUnstyled)(
   ({ theme }) => `
   min-width: 400px;
@@ -88,7 +74,7 @@ const TabsList = styled(TabsListUnstyled)(
 
 function TabsIntroduction({ content }) {
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 

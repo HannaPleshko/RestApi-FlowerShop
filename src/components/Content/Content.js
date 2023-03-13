@@ -1,14 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from 'axios';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import TabsIntroduction from "./TabsIntroduction";
 import style from './Content.module.css';
+import TabRow from "./TabRow";
 
 function Content({ content }) {
   const [keys, setKeys] = useState([])
@@ -22,7 +17,6 @@ function Content({ content }) {
 
     const vals = resp.data.map(el => Object.values(el))
     setVals(vals)
-    console.log(vals);
   }
 
   useEffect(() => {
@@ -38,6 +32,7 @@ function Content({ content }) {
           <TableHead>
             <TableRow>
               {keys.map((el) => <TableCell key={Math.random()}>{el}</TableCell>)}
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -46,8 +41,7 @@ function Content({ content }) {
                 key={Math.random()}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-
-                {row.map((el) => <TableCell key={Math.random()} component="th" scope="row" > {el}</TableCell>)}
+                {row.map((el, index) => <TabRow key={Math.random()} index={index} el={el} row={row} />)}
 
               </TableRow>
             ))}

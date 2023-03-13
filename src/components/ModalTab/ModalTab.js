@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { styled, Box } from '@mui/system';
 import ModalUnstyled from '@mui/base/ModalUnstyled';
 
-const BackdropUnstyled = React.forwardRef((props, ref) => {
+const BackdropUnstyled = forwardRef((props, ref) => {
     const { open, className, ...other } = props;
     return (
         <div
