@@ -8,7 +8,7 @@ function Main() {
     return (
         <>
             <Header setContent={setContent}/>
-            <Content content={content}/>
+            <Content content={content} setContent={setContent}/>
         </>
     );
 }

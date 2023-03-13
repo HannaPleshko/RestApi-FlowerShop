@@ -1,7 +1,19 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import { TableCell, IconButton } from '@mui/material/';
+import CreateIcon from '@mui/icons-material/Create';
+import axios from 'axios';
 
-function TabRow({ el, row, index }) {
+function TabRow({ el, row, index, id, content }) {
+
+    const deleteSomeData = async () => {
+        try {
+            const resp = await axios.delete(`${content}/${id}`)
+            window.location.reload();
+        } catch (e) {
+            alert('Network error. Please refresh the page')
+            console.log(e.message);
+        }
+    }
 
     return (
         <>
@@ -9,8 +21,11 @@ function TabRow({ el, row, index }) {
 
             {index === row.length - 1 ?
                 <TableCell component="th" scope="row" >
-                    <IconButton aria-label="delete">
+                    <IconButton onClick={deleteSomeData} aria-label="delete">
                         <DeleteIcon />
+                    </IconButton>
+                    <IconButton aria-label="create">
+                        <CreateIcon />
                     </IconButton>
                 </TableCell>
                 : null

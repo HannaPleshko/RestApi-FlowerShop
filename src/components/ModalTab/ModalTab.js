@@ -1,8 +1,10 @@
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { styled, Box } from '@mui/system';
 import ModalUnstyled from '@mui/base/ModalUnstyled';
+import axios from 'axios';
+import { Button, TextField } from '@mui/material';
 
 const BackdropUnstyled = forwardRef((props, ref) => {
     const { open, className, ...other } = props;
@@ -53,22 +55,30 @@ const style = (theme) => ({
     padding: '16px 32px 24px 32px',
 });
 
-function ModalTab({ open, handleClose }) {
+function ModalTab({ open, handleClose, path }) {
+    const [inp, setInp] = useState({})
 
-    console.log(open);
+    const createSomeData = async () => {
+        try {
+            const resp = await axios.post(path, inp)
+            window.location.reload();
+        } catch (e) {
+            alert('Network error. Please refresh the page')
+            console.log(e.message);
+        }
+    }
 
     return (
         <Modal
-            aria-labelledby="keep-mounted-modal-title"
-            aria-describedby="keep-mounted-modal-description"
             open={open}
             onClose={handleClose}
             slots={{ backdrop: Backdrop }}
             keepMounted
         >
             <Box sx={style}>
-                <h2 id="keep-mounted-modal-title">Text in a modal</h2>
-                <p id="keep-mounted-modal-description">Aliquid amet deserunt earum!</p>
+                <h1>CREATE {path}</h1>
+                <TextField name="providerName" onChange={(e) => setInp({ ...inp, [e.target.name]: e.target.value })} id="standard-basic" label="Provider Name" variant="standard" />
+                <Button onClick={createSomeData} variant="outlined">CREATE</Button>
             </Box>
         </Modal>
     )
