@@ -1,12 +1,31 @@
 import { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton } from '@mui/material';
+import { tableCellClasses } from '@mui/material/TableCell';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ModalTab from "../ModalTab/ModalTab";
 import style from './Content.module.css';
 import TabRow from "./TabRow";
 import axios from 'axios';
+import { styled } from '@mui/material/styles';
 
-function Content({ content, setContent }) {
+
+const Icon = styled(AddShoppingCartIcon)`
+  color: #1667b8;
+`;
+
+const StyledTableCell = styled(TableCell)(() => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: '#f5faff',
+  }
+}));
+
+const StyledTableRow = styled(TableRow)(() => ({
+  '&:hover': {
+    backgroundColor: '#1667b806',
+  },
+}));
+
+function Content({ content }) {
   const [table, setTable] = useState({ keys: [], vals: [] })
   const [open, setOpen] = useState(false);
 
@@ -19,9 +38,9 @@ function Content({ content, setContent }) {
 
       const keys = Object.keys(resp.data[0])
       const vals = resp.data.map(el => Object.values(el))
-      
+
       setTable({ vals, keys })
-    } catch(e) {
+    } catch (e) {
       alert('Network error. Please refresh the page')
       console.log(e.message);
     }
@@ -37,34 +56,36 @@ function Content({ content, setContent }) {
       <div className={style['content-head']}>
         <h1>{content}</h1>
 
-        <IconButton onClick={handleOpen} color="primary" aria-label="add to shopping cart">
-          <AddShoppingCartIcon />
-        </IconButton>
+        <div className={style['img']}>
+          <IconButton onClick={handleOpen} color="primary" aria-label="add to shopping cart">
+            <Icon />
+          </IconButton>
+        </div>
       </div>
 
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <TableContainer component={Paper} sx={{ maxHeight: 350, minWidth: 650 }} >
+        <Table stickyHeader aria-label="sticky table">
           <TableHead>
-            <TableRow>
-              {table.keys.length ? table.keys.map((el) => <TableCell key={Math.random()}>{el}</TableCell>) : null}
-              <TableCell></TableCell>
-            </TableRow>
+            <StyledTableRow>
+              {table.keys.length ? table.keys.map((el) => <StyledTableCell key={Math.random()}>{el}</StyledTableCell>) : null}
+              <StyledTableCell></StyledTableCell>
+            </StyledTableRow>
           </TableHead>
           <TableBody>
             {table.vals.length ? table.vals.map((row) => (
-              <TableRow
+              <StyledTableRow
                 key={Math.random()}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
+
                 {row.map((el, index) => <TabRow key={Math.random()} content={content} id={row[0]} index={index} el={el} row={row} />)}
 
-              </TableRow>
+              </StyledTableRow>
             )) : null}
           </TableBody>
         </Table>
       </TableContainer>
 
-      {open ? <ModalTab open={open} handleClose={handleClose} path={content} /> : null}
+      {open ? <ModalTab open={open} keys={table.keys} handleClose={handleClose} path={content} /> : null}
     </div>
   );
 }

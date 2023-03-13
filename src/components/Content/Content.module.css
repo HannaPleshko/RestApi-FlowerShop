@@ -4,10 +4,25 @@
     color: #627d94;
 }
 
-.content-head{
+.content-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.content-head .img {
+    color: transparent;
+    cursor: pointer;
+    transition: all 1s linear;
+}
+
+.content-head .img::before {
+    content: 'CREATE  ';
+}
+
+.content-head .img:hover {
+    color: #627d9485;
+    color: #f5faff;
 }
 
 .wrapper h1 {

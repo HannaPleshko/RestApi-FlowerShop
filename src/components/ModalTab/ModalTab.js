@@ -5,6 +5,7 @@ import { styled, Box } from '@mui/system';
 import ModalUnstyled from '@mui/base/ModalUnstyled';
 import axios from 'axios';
 import { Button, TextField } from '@mui/material';
+import style from './ModalTab.module.css';
 
 const BackdropUnstyled = forwardRef((props, ref) => {
     const { open, className, ...other } = props;
@@ -48,14 +49,14 @@ const Backdrop = styled(BackdropUnstyled)`
   -webkit-tap-highlight-color: transparent;
 `;
 
-const style = (theme) => ({
+const styleBox = (theme) => ({
     width: 400,
     bgcolor: theme.palette.mode === 'dark' ? '#0A1929' : 'white',
     border: '2px solid currentColor',
     padding: '16px 32px 24px 32px',
 });
 
-function ModalTab({ open, handleClose, path }) {
+function ModalTab({ open, handleClose, path, keys }) {
     const [inp, setInp] = useState({})
 
     const createSomeData = async () => {
@@ -75,10 +76,13 @@ function ModalTab({ open, handleClose, path }) {
             slots={{ backdrop: Backdrop }}
             keepMounted
         >
-            <Box sx={style}>
-                <h1>CREATE {path}</h1>
-                <TextField name="providerName" onChange={(e) => setInp({ ...inp, [e.target.name]: e.target.value })} id="standard-basic" label="Provider Name" variant="standard" />
-                <Button onClick={createSomeData} variant="outlined">CREATE</Button>
+            <Box sx={styleBox}>
+                <div className={style['wrapper']}>
+                    <h1>CREATE {path}</h1>
+                    {keys.slice(1).map(el => <div> <TextField name="providerName" onChange={(e) => setInp({ ...inp, [e.target.name]: e.target.value })} id="standard-basic" label={el} variant="standard" /></div>)}
+                    <div><Button onClick={createSomeData} variant="outlined">CREATE</Button></div>
+                </div>
+
             </Box>
         </Modal>
     )
