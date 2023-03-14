@@ -79,7 +79,7 @@ function ModalTab({ open, handleClose, path, keys }) {
             <Box sx={styleBox}>
                 <div className={style['wrapper']}>
                     <h1>CREATE {path}</h1>
-                    {keys.slice(1).map(el => <div> <TextField name="providerName" onChange={(e) => setInp({ ...inp, [e.target.name]: e.target.value })} id="standard-basic" label={el} variant="standard" /></div>)}
+                    {keys.slice(1).map(el => <div> <TextField name={el}  onChange={(e) => setInp({ ...inp, [e.target.name]: e.target.value })} id="standard-basic" label={el} variant="standard" /></div>)}
                     <div><Button onClick={createSomeData} variant="outlined">CREATE</Button></div>
                 </div>
 
