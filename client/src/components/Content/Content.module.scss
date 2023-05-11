@@ -1,0 +1,38 @@
+.content-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    h1 {
+        font: 400 25px 'Roboto';
+        color: #1667b8;
+    }
+
+    .icon {
+        color: transparent;
+        cursor: pointer;
+        transition: all 1s linear;
+
+        &::before {
+            content: 'CREATE  ';
+        }
+
+        &:hover {
+            color: #627d9485;
+        }
+    }
+}
+
+.content-body {
+    max-height: 350px;
+    min-width: 650px;
+
+    .table-row:hover {
+        background-color: #1667b806;
+    }
+
+    .table-cell {
+        background-color: #f5faff;
+    }
+}

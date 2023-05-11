@@ -23,8 +23,8 @@ route.get('/:id', async (req, res) => {
 
 route.post('/', async (req, res) => {
   try {
-    const { providername } = req.body;
-    const provider = await createProvider(providername);
+    const { providerName } = req.body;
+    const provider = await createProvider(providerName);
     res.status(200).send(provider);
   } catch (error) {
     res.status(404).send(error.message);
@@ -35,7 +35,7 @@ route.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { providerName } = req.body;
-    const provider = await updateProvider(providerName);
+    const provider = await updateProvider(id, providerName);
     res.status(200).send(provider);
   } catch (error) {
     res.status(404).send(error.message);

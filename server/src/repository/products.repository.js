@@ -2,25 +2,27 @@ const { pool } = require('../DB');
 
 async function getProductsDB() {
   const client = await pool.connect();
-  const sql = `SELECT product.ID, product.PRODUCTNAME, product.PRICE, provider.PROVIDERNAME, product.PROVIDER_ID  FROM product JOIN provider ON provider.id=product.provider_id;`;
+  const sql = `SELECT PT.ID, PT.ProductName, PT.Price, PR.ProviderName, PT.Provider_ID  
+  FROM Product PT JOIN Provider PR ON PR.ID = PT.Provider_ID;`;
   const data = (await client.query(sql)).rows;
   return data;
 }
 
 async function getProductByIdDB(id) {
   const client = await pool.connect();
-  const sql = 'SELECT * FROM product WHERE id=$1';
+  const sql = 'SELECT * FROM Product WHERE ID = $1';
   const data = (await client.query(sql, [id])).rows;
   return data;
 }
 
-async function createProductDB(provider_ID, price, productName) {
+async function createProductDB(providerId, price, productName) {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    const sql = `INSERT INTO product (PROVIDER_ID, PRICE, PRODUCTNAME)
-          VALUES ($1,$2,$3) RETURNING *`;
-    const data = (await client.query(sql, [provider_ID, price, productName])).rows;
+
+    const sql = `INSERT INTO Product (Provider_ID, Price, ProductName) VALUES ($1,$2,$3) RETURNING *`;
+    const data = (await client.query(sql, [providerId, price, productName])).rows;
+
     await client.query('COMMIT');
     return data;
   } catch (error) {
@@ -30,14 +32,14 @@ async function createProductDB(provider_ID, price, productName) {
   }
 }
 
-async function updateProductDB(id, provider_ID, price, productName) {
+async function updateProductDB(id, providerId, price, productName) {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    const sql = `UPDATE product 
-            SET PROVIDER_ID=$1, PRICE=$2, PRODUCTNAME=$3
-            WHERE id=$4 RETURNING*`;
-    const data = (await client.query(sql, [provider_ID, price, productName, id])).rows;
+    const sql = `UPDATE Product 
+            SET Provider_ID = $1, Price = $2, ProductName = $3
+            WHERE ID = $4 RETURNING*`;
+    const data = (await client.query(sql, [providerId, price, productName, id])).rows;
     await client.query('COMMIT');
     return data;
   } catch (error) {
@@ -51,7 +53,7 @@ async function deleteProductDB(id) {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    const sql = `DELETE FROM product WHERE id=$1 CASKADE RETURNING *`;
+    const sql = `DELETE FROM Product WHERE ID = $1 CASCADE RETURNING *`;
     const data = (await client.query(sql, [id])).rows;
     await client.query('COMMIT');
     return data;
