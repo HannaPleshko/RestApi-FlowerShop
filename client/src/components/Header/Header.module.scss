@@ -1,0 +1,28 @@
+.block-nav {
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  input {
+    cursor: pointer;
+  }
+
+  .img {
+    background-image: url(./assets/HS-removebg-preview.png);
+    width: 220px;
+    height: 80px;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  .btn {
+    color: #1667b8;
+    width: 100px;
+
+    &:hover {
+      position: relative;
+      top: 1px;
+    }
+  }
+}

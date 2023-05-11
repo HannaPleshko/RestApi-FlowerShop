@@ -1,28 +1,16 @@
 import Button from '@mui/material/Button';
-import { styled } from '@mui/system';
-
-const Btn = styled(Button)`
-  color: #1667b8;
-  width: 100px;
-  
-    &:hover {
-        position:relative;
-        top: 1px;
-    }
-
-`;
+import style from './Header.module.scss';
 
 function HeaderItem({ title, setContent }) {
+  const showContent = event => setContent(event.target.textContent);
 
-    const showContent = (event) => {
-        setContent(event.target.textContent)
-    }
-
-    return (
-        <div>
-            <Btn onClick={showContent}>{title}</Btn>
-        </div>
-    )
+  return (
+    <div>
+      <Button className={style['btn']} onClick={showContent}>
+        {title}
+      </Button>
+    </div>
+  );
 }
 
-export default HeaderItem
+export default HeaderItem;
