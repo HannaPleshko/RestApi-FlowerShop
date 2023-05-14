@@ -3,10 +3,8 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ModalTab from '../ModalTab/ModalTab';
 import style from './Content.module.scss';
-import TabRow from './TabRow';
 import axios from 'axios';
-import DeleteIcon from '@mui/icons-material/Delete';
-import CreateIcon from '@mui/icons-material/Create';
+import Navigation from './Navigation';
 
 function Content({ content }) {
   const [table, setTable] = useState();
@@ -17,6 +15,8 @@ function Content({ content }) {
 
   const getSomeData = async () => {
     try {
+      console.log('+');
+
       const resp = await axios.get(content.toLowerCase());
 
       const keys = Object.keys(resp.data[0]);
@@ -51,35 +51,28 @@ function Content({ content }) {
             <TableRow>
               {table?.keys?.length
                 ? table.keys.map(el => (
-                    <TableCell className={style['table-cell']} key={Math.random()}>
-                      {el}
-                    </TableCell>
-                  ))
+                  <TableCell className={style['table-cell']} key={Math.random()}>
+                    {el}
+                  </TableCell>
+                ))
                 : null}
-              <TableCell style={{ width: 150, textAlign: 'end' }} className={style['table-cell']}>
-                {' '}
-                Navigation{' '}
+              <TableCell style={{ textAlign: 'end' }} className={style['table-cell']}>
+                Navigation
               </TableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
             {table?.vals?.length
-              ? table.vals?.map(row => (
-                  <TableRow className={style['table-row']} key={Math.random()}>
-                    {row.map(el => (
-                      <TabRow key={Math.random()} el={el} />
-                    ))}
-                    <TableCell align="right">
-                      <IconButton aria-label="delete">
-                        <DeleteIcon />
-                      </IconButton>
-                      <IconButton aria-label="create">
-                        <CreateIcon />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))
+              ? table.vals.map(row => (
+                <TableRow className={style['table-row']} key={Math.random()}>
+                  {row.map(el =>
+                    <TableCell key={Math.random()} component="th" scope="row">{el}</TableCell>
+                  )}
+
+                  <Navigation key={Math.random()} id={row[0]} content={content}/>
+                </TableRow>
+              ))
               : null}
           </TableBody>
         </Table>
