@@ -3,12 +3,15 @@ import CreateIcon from '@mui/icons-material/Create';
 import { TableCell, IconButton } from '@mui/material';
 import axios from 'axios';
 
-function Navigation({ id, content }) {
+function Navigation({ id, content, setContent }) {
 
     const deleteSomeData = async () => {
         try {
-            const resp = await axios.delete(`${content}/${id}`)
-            window.location.reload();
+            console.log('-');
+            // const resp = await axios.delete(`${content}/${id}`)
+            // console.log(resp);
+            setContent(content)
+            // window.location.reload();
         } catch (e) {
             alert('Network error. Please refresh the page');
             console.log(e.message);

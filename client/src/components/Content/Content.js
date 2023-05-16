@@ -6,7 +6,7 @@ import style from './Content.module.scss';
 import axios from 'axios';
 import Navigation from './Navigation';
 
-function Content({ content }) {
+function Content({ content, setContent }) {
   const [table, setTable] = useState();
   const [open, setOpen] = useState(false);
 
@@ -30,7 +30,7 @@ function Content({ content }) {
   };
 
   useEffect(() => {
-    getSomeData();
+     getSomeData();
   }, [content]);
 
   return (
@@ -70,7 +70,7 @@ function Content({ content }) {
                     <TableCell key={Math.random()} component="th" scope="row">{el}</TableCell>
                   )}
 
-                  <Navigation key={Math.random()} id={row[0]} content={content}/>
+                  <Navigation key={Math.random()} id={row[0]} content={content} />
                 </TableRow>
               ))
               : null}
@@ -78,7 +78,7 @@ function Content({ content }) {
         </Table>
       </TableContainer>
 
-      {open ? <ModalTab keys={table.keys} open={open} handleClose={handleClose} /> : null}
+      {open ? <ModalTab keys={table.keys} setContent={setContent} open={open} handleClose={handleClose} /> : null}
     </div>
   );
 }
