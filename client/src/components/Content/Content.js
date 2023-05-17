@@ -8,6 +8,7 @@ import Navigation from './Navigation';
 
 function Content({ content }) {
   const [table, setTable] = useState();
+  const [selectedRow, setSelectedRow] = useState(null);
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -62,14 +63,16 @@ function Content({ content }) {
 
           <TableBody>
             {table?.vals?.length
-              ? table.vals.map(row => (
+              ? table.vals.map((row, rowIndex) => (
+
                 <TableRow className={style['table-row']} key={Math.random()}>
                   {row.map(el =>
-                    <TableCell key={Math.random()} component="th" scope="row">{el}</TableCell>
+                    <TableCell key={Math.random()} component="th" scope="row"> <input onChange={() => { }} className={style[rowIndex !== selectedRow ? 'off-inp' : 'on-inp']} disabled={rowIndex !== selectedRow} value={el} /></TableCell>
                   )}
 
-                  <Navigation key={Math.random()} id={row[0]} content={content} />
+                  <Navigation key={Math.random()} id={row[0]} rowIndex={rowIndex} content={content} setSelectedRow={setSelectedRow} selectedRow={selectedRow}/>
                 </TableRow>
+
               ))
               : null}
           </TableBody>

@@ -26,7 +26,7 @@
 
 .content-body {
   max-height: 350px;
-  min-width: 650px;
+  // min-width: 650px;
 
   .table-row:hover {
     background-color: #1667b806;
@@ -34,5 +34,27 @@
 
   .table-cell {
     background-color: #f5faff;
+    position: relative;
+  }
+
+  .off-inp {
+    padding: 5px 0;
+    background-color: transparent;
+    border-width: 0;
+  }
+  
+  .on-inp {
+    padding: 5px 0;
+    background-color: transparent;
+    outline: none;
+    border-width: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.463);
+  }
+}
+
+.navigation {
+width: 200px;
+  .update-btns {
+    position: absolute;
   }
 }

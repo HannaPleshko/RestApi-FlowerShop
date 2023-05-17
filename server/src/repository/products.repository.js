@@ -2,8 +2,7 @@ const { pool } = require('../DB');
 
 async function getProductsDB() {
   const client = await pool.connect();
-  const sql = `SELECT PT.ID, PT.ProductName, PT.Price, PR.ProviderName, PT.Provider_ID  
-  FROM Product PT JOIN Provider PR ON PR.ID = PT.Provider_ID;`;
+  const sql = `SELECT * FROM Product`;
   const response = await client.query(sql);
   return {
     fields: response.fields.map(field => field.name),
