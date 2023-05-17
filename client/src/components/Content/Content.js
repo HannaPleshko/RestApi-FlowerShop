@@ -6,7 +6,7 @@ import style from './Content.module.scss';
 import axios from 'axios';
 import Navigation from './Navigation';
 
-function Content({ content, setContent }) {
+function Content({ content }) {
   const [table, setTable] = useState();
   const [open, setOpen] = useState(false);
 
@@ -15,12 +15,10 @@ function Content({ content, setContent }) {
 
   const getSomeData = async () => {
     try {
-      console.log('+');
+      const response = (await axios.get(content)).data;
 
-      const resp = await axios.get(content.toLowerCase());
-
-      const keys = Object.keys(resp.data[0]);
-      const vals = resp.data.map(el => Object.values(el));
+      const keys = response?.fields ?? [];
+      const vals = response?.rows.map(el => Object.values(el)) ?? [];
 
       setTable({ vals, keys });
     } catch (e) {
@@ -30,7 +28,7 @@ function Content({ content, setContent }) {
   };
 
   useEffect(() => {
-     getSomeData();
+    getSomeData();
   }, [content]);
 
   return (
@@ -78,7 +76,7 @@ function Content({ content, setContent }) {
         </Table>
       </TableContainer>
 
-      {open ? <ModalTab keys={table.keys} setContent={setContent} open={open} handleClose={handleClose} /> : null}
+      {open ? <ModalTab keys={table.keys} content={content} open={open} handleClose={handleClose} /> : null}
     </div>
   );
 }

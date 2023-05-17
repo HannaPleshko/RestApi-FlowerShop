@@ -25,4 +25,12 @@
       top: 1px;
     }
   }
+
+    .actice-btn {
+      background-color: rgba(25, 118, 210, 0.152);
+
+      &:hover {
+        background-color: rgba(25, 118, 210, 0.203);
+      }
+    }
 }

@@ -2,30 +2,25 @@ const { getProductsDB, getProductByIdDB, createProductDB, updateProductDB, delet
 
 async function getProducts() {
   const products = await getProductsDB();
-  if (!products.length) throw new Error('products DB is empty');
   return products;
 }
 
 async function getProductById(id) {
   const products = await getProductByIdDB(id);
-  if (!products.length) throw new Error('products DB is empty');
   return products;
 }
-async function createProduct(providerId, price, productName) {
-  const products = await createProductDB(providerId, price, productName);
-  if (!products.length) throw new Error('products DB is empty');
+async function createProduct(providerid, price, productname) {
+  const products = await createProductDB(providerid, price, productname);
   return products;
 }
 
-async function updateProduct(id, providerId, price, productName) {
-  const products = await updateProductDB(id, providerId, price, productName);
-  if (!products.length) throw new Error('products DB is empty');
+async function updateProduct(id, providerid, price, productname) {
+  const products = await updateProductDB(id, providerid, price, productname);
   return products;
 }
 
 async function deleteProduct(id) {
   const products = await deleteProductDB(id);
-  if (!products.length) throw new Error('products DB is empty');
   return products;
 }
 

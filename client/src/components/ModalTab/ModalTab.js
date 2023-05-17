@@ -1,12 +1,20 @@
 import { useState } from 'react';
 import { Button, Modal, TextField } from '@mui/material';
 import style from './ModalTab.module.scss';
+import axios from 'axios';
 
-const ModalTab = ({ open, handleClose, keys }) => {
+const ModalTab = ({ open, handleClose, keys, content }) => {
   const [inp, setInp] = useState({});
 
-  const generateTask = () => {
-    console.log(inp);
+  const generateTask = async () => {
+    try {
+      const resp = await axios.post(`${content}`, inp)
+      console.log(resp);
+      window.location.reload();
+    } catch (e) {
+      alert('Network error. Please refresh the page');
+      console.log(e.message);
+    }
   };
 
   const handleInputChange = e => {

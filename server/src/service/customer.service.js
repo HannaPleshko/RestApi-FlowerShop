@@ -2,31 +2,26 @@ const { getCustomerDB, getCustomerByIdDB, createCustomerDB, updateCustomerDB, de
 
 async function getCustomer() {
   const customer = await getCustomerDB();
-  if (!customer.length) throw new Error('customer DB is empty');
   return customer;
 }
 
 async function getCustomerById(id) {
   const customer = await getCustomerByIdDB(id);
-  if (!customer.length) throw new Error('customer DB is empty');
   return customer;
 }
 
-async function createCustomer(customerName) {
-  const customer = await createCustomerDB(customerName);
-  if (!customer.length) throw new Error('customer DB is empty');
+async function createCustomer(customername) {
+  const customer = await createCustomerDB(customername);
   return customer;
 }
 
-async function updateCustomer(id, customerName) {
-  const customer = await updateCustomerDB(id, customerName);
-  if (!customer.length) throw new Error('customer DB is empty');
+async function updateCustomer(id, customername) {
+  const customer = await updateCustomerDB(id, customername);
   return customer;
 }
 
 async function deleteCustomer(id) {
   const customer = await deleteCustomerDB(id);
-  if (!customer.length) throw new Error('customer DB is empty');
   return customer;
 }
 

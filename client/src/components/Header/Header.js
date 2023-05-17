@@ -1,7 +1,7 @@
 import HeaderItem from './HeaderItem';
 import style from './Header.module.scss';
 
-function Header({ setContent }) {
+function Header({ setContent, content }) {
   const nav = ['PROVIDER', 'PRODUCT', 'SALE', 'CUSTOMER'];
 
   return (
@@ -9,7 +9,7 @@ function Header({ setContent }) {
       <div className={style['img']}></div>
 
       {nav.map((el, index) => (
-        <HeaderItem key={index} setContent={setContent} title={el} />
+        <HeaderItem key={index} setContent={setContent} content={content} title={el} />
       ))}
     </div>
   );

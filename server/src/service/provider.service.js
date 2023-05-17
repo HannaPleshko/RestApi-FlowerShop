@@ -2,31 +2,26 @@ const { getProviderDB, getProviderByIdDB, createProviderDB, updateProviderDB, de
 
 async function getProvider() {
   const provider = await getProviderDB();
-  if (!provider.length) throw new Error('provider DB is empty');
   return provider;
 }
 
 async function getProviderById(id) {
   const provider = await getProviderByIdDB(id);
-  if (!provider.length) throw new Error('provider DB is empty');
   return provider;
 }
 
-async function createProvider(providerName) {
-  const provider = await createProviderDB(providerName);
-  if (!provider.length) throw new Error('provider DB is empty');
+async function createProvider(providername) {
+  const provider = await createProviderDB(providername);
   return provider;
 }
 
-async function updateProvider(id, providerName) {
-  const provider = await updateProviderDB(id, providerName);
-  if (!provider.length) throw new Error('provider DB is empty');
+async function updateProvider(id, providername) {
+  const provider = await updateProviderDB(id, providername);
   return provider;
 }
 
 async function deleteProvider(id) {
   const provider = await deleteProviderDB(id);
-  if (!provider.length) throw new Error('provider DB is empty');
   return provider;
 }
 
