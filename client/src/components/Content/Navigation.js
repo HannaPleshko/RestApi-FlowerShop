@@ -6,41 +6,57 @@ import { TableCell, IconButton } from '@mui/material';
 import axios from 'axios';
 import style from './Content.module.scss';
 
-function Navigation({ id, content, setSelectedRow, rowIndex, selectedRow }) {
-    console.log(selectedRow);
-    const handleClick = () => {
-        setSelectedRow(rowIndex);
-    };
+function Navigation({ id, content, setSelectedRow, itemIndex, selectedRow, inp }) {
+  const handleClick = () => {
+    setSelectedRow(itemIndex);
+  };
 
-    const deleteSomeData = async () => {
-        try {
-            const resp = await axios.delete(`${content}/${id}`)
-            console.log(resp);
-            window.location.reload();
-        } catch (e) {
-            alert('Network error. Please refresh the page');
-            console.log(e.message);
-        }
-    };
-    const updateSomeData = () => {
-        setSelectedRow(null)
-    };
+  const deleteSomeData = async () => {
+    try {
+      console.log(id);
+      const resp = await axios.delete(`${content}/${id}`);
+      window.location.reload();
+    } catch (e) {
+      alert('Network error. Please refresh the page');
+      console.log(e.message);
+    }
+  };
+  const updateSomeData = async () => {
+    try {
+      console.log(inp);
+      // const resp = await axios.put(`${content}/${id}`);
+      // window.location.reload();
+    } catch (e) {
+      alert('Network error. Please refresh the page');
+      console.log(e.message);
+    }
+  };
 
-    return (
-        <TableCell align="right"  className={style['navigation']}>
+  const revert = () => {
+    setSelectedRow(null);
+  };
 
-            {selectedRow === rowIndex ? <div  className={style['update-btns']}> <IconButton onClick={updateSomeData} aria-label="save"><SaveIcon /></IconButton><IconButton onClick={updateSomeData} aria-label="save"><RestartAlt /></IconButton> </div> : null}
+  return (
+    <TableCell align="right" className={style['navigation']}>
+      {selectedRow === itemIndex ? (
+        <>
+          <IconButton onClick={updateSomeData} aria-label="save">
+            <SaveIcon />
+          </IconButton>
+          <IconButton onClick={revert} aria-label="save">
+            <RestartAlt />
+          </IconButton>
+        </>
+      ) : null}
+      <IconButton aria-label="delete" onClick={deleteSomeData}>
+        <DeleteIcon />
+      </IconButton>
 
-            <IconButton aria-label="delete" onClick={deleteSomeData}>
-                <DeleteIcon />
-            </IconButton>
-
-
-            <IconButton aria-label="create" onClick={handleClick}>
-                <CreateIcon />
-            </IconButton>
-        </TableCell>
-    )
+      <IconButton aria-label="create" onClick={handleClick}>
+        <CreateIcon />
+      </IconButton>
+    </TableCell>
+  );
 }
 
 export default Navigation;

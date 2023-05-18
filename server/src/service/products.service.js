@@ -9,13 +9,13 @@ async function getProductById(id) {
   const products = await getProductByIdDB(id);
   return products;
 }
-async function createProduct(providerid, price, productname) {
-  const products = await createProductDB(providerid, price, productname);
+async function createProduct(provider_id, price, productname) {
+  const products = await createProductDB(provider_id, price, productname);
   return products;
 }
 
-async function updateProduct(id, providerid, price, productname) {
-  const products = await updateProductDB(id, providerid, price, productname);
+async function updateProduct(id, provider_id, price, productname) {
+  const products = await updateProductDB(id, provider_id, price, productname);
   return products;
 }
 

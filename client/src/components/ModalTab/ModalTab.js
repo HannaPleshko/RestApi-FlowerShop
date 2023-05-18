@@ -8,7 +8,7 @@ const ModalTab = ({ open, handleClose, keys, content }) => {
 
   const generateTask = async () => {
     try {
-      const resp = await axios.post(`${content}`, inp)
+      const resp = await axios.post(`${content}`, inp);
       console.log(resp);
       window.location.reload();
     } catch (e) {

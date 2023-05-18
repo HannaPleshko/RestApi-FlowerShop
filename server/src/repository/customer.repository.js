@@ -6,7 +6,7 @@ async function getCustomerDB() {
   const response = await client.query(sql);
   return {
     fields: response.fields.map(field => field.name),
-    rows: response.rows
+    rows: response.rows,
   };
 }
 

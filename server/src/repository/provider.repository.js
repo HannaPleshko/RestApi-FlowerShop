@@ -7,7 +7,7 @@ async function getProviderDB() {
 
   return {
     fields: response.fields.map(field => field.name),
-    rows: response.rows
+    rows: response.rows,
   };
 }
 

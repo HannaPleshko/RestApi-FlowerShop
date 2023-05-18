@@ -6,7 +6,7 @@ async function getProductsDB() {
   const response = await client.query(sql);
   return {
     fields: response.fields.map(field => field.name),
-    rows: response.rows
+    rows: response.rows,
   };
 }
 
@@ -17,13 +17,13 @@ async function getProductByIdDB(id) {
   return response;
 }
 
-async function createProductDB(providerid, price, productname) {
+async function createProductDB(provider_id, price, productname) {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
 
     const sql = `INSERT INTO Product (Provider_ID, Price, ProductName) VALUES ($1,$2,$3) RETURNING *`;
-    const response = (await client.query(sql, [providerid, price, productname])).rows;
+    const response = (await client.query(sql, [provider_id, price, productname])).rows;
 
     await client.query('COMMIT');
     return response;
@@ -34,14 +34,14 @@ async function createProductDB(providerid, price, productname) {
   }
 }
 
-async function updateProductDB(id, providerid, price, productname) {
+async function updateProductDB(id, provider_id, price, productname) {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
     const sql = `UPDATE Product 
             SET Provider_ID = $1, Price = $2, ProductName = $3
             WHERE ID = $4 RETURNING*`;
-    const response = (await client.query(sql, [providerid, price, productname, id])).rows;
+    const response = (await client.query(sql, [provider_id, price, productname, id])).rows;
     await client.query('COMMIT');
     return response;
   } catch (error) {

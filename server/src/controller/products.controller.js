@@ -23,8 +23,8 @@ route.get('/:id', async (req, res) => {
 
 route.post('/', async (req, res) => {
   try {
-    const { providerid, price, productname } = req.body;
-    const products = await createProduct(providerid, price, productname);
+    const { provider_id, price, productname } = req.body;
+    const products = await createProduct(provider_id, price, productname);
     res.status(200).send(products);
   } catch (error) {
     res.status(404).send(error.message);
@@ -34,8 +34,8 @@ route.post('/', async (req, res) => {
 route.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { providerid, price, productname } = req.body;
-    const products = await updateProduct(id, providerid, price, productname);
+    const { provider_id, price, productname } = req.body;
+    const products = await updateProduct(id, provider_id, price, productname);
     res.status(200).send(products);
   } catch (error) {
     res.status(404).send(error.message);
