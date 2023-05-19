@@ -32,7 +32,6 @@ class CustomerDB extends Database {
       const query = { text: 'SELECT * FROM Customer ORDER BY id' };
 
       const { fields, rows } = await this.pool.query(query);
-      if (!rows.length) throw new HttpException(404, ExceptionType.DB_CUSTOMER_NOT_FOUND);
 
       return {
         fields: fields.map(field => field.name),

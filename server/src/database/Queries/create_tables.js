@@ -41,7 +41,6 @@ const createTables = async (pool = defaultPool) => {
       )
       .catch(error => {
         if (error) {
-          console.log(error);
           throw new HttpException(500, ExceptionType.DB_INITIALIZE_NOT_INITIALIZED);
         }
       });

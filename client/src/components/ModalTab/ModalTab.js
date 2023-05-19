@@ -8,12 +8,11 @@ const ModalTab = ({ open, handleClose, keys, content }) => {
 
   const generateTask = async () => {
     try {
-      const resp = await axios.post(`${content}`, inp);
-      console.log(resp);
+      await axios.post(`${content}`, inp);
       window.location.reload();
     } catch (e) {
       alert('Network error. Please refresh the page');
-      console.log(e.message);
+      console.error(e.message);
     }
   };
 

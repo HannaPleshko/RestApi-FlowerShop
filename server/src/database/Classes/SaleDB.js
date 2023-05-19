@@ -32,7 +32,6 @@ class SaleDB extends Database {
       const query = { text: 'SELECT * FROM Sale ORDER BY id' };
 
       const { fields, rows } = await this.pool.query(query);
-      if (!rows.length) throw new HttpException(404, ExceptionType.DB_SALE_NOT_FOUND);
 
       return {
         fields: fields.map(field => field.name),

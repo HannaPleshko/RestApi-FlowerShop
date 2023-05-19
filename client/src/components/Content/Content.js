@@ -24,7 +24,7 @@ function Content({ content }) {
       setRows(rows.map(el => el) ?? []);
     } catch (e) {
       alert('Network error. Please refresh the page');
-      console.log(e.message);
+      console.error(e.message);
     }
   };
 
