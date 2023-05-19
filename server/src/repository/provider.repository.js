@@ -2,7 +2,7 @@ const { pool } = require('../DB');
 
 async function getProviderDB() {
   const client = await pool.connect();
-  const sql = 'SELECT * FROM Provider';
+  const sql = 'SELECT * FROM Provider ORDER BY id';
   const response = await client.query(sql);
 
   return {

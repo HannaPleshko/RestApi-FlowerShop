@@ -2,7 +2,7 @@ const { pool } = require('../DB');
 
 async function getProductsDB() {
   const client = await pool.connect();
-  const sql = `SELECT * FROM Product`;
+  const sql = `SELECT * FROM Product ORDER BY id`;
   const response = await client.query(sql);
   return {
     fields: response.fields.map(field => field.name),

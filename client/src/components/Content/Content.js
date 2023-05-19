@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ModalTab from '../ModalTab/ModalTab';
@@ -7,10 +7,10 @@ import axios from 'axios';
 import Navigation from './Navigation';
 
 function Content({ content }) {
-  const [table, setTable] = useState();
+  const [fields, setFields] = useState([]);
+  const [rows, setRows] = useState([]);
   const [selectedRow, setSelectedRow] = useState(null);
   const [open, setOpen] = useState(false);
-  const [inp, setInp] = useState([]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -20,11 +20,8 @@ function Content({ content }) {
       const response = (await axios.get(content)).data;
 
       const { fields, rows } = response;
-
-      const initialInp = rows.map(() => ({})); // Создаем отдельный объект inp для каждого ряда
-
-      setTable({ vals: rows ?? [], keys: fields ?? [] });
-      setInp(initialInp);
+      setFields(fields ?? []);
+      setRows(rows.map(el => el) ?? []);
     } catch (e) {
       alert('Network error. Please refresh the page');
       console.log(e.message);
@@ -34,7 +31,7 @@ function Content({ content }) {
   const handleInputChange = (e, rowIndex) => {
     const { name, value } = e.target;
 
-    setInp(prevState => {
+    setRows(prevState => {
       const updatedInp = [...prevState];
       updatedInp[rowIndex] = { ...updatedInp[rowIndex], [name]: value };
       return updatedInp;
@@ -57,55 +54,57 @@ function Content({ content }) {
         </div>
       </div>
 
-      <TableContainer className={style['content-body']} component={Paper}>
-        <Table stickyHeader>
-          <TableHead>
-            <TableRow>
-              {table?.keys?.length
-                ? table.keys.map((el, keyIndex) => (
-                    <TableCell className={style['table-cell']} key={keyIndex}>
-                      {el}
-                    </TableCell>
-                  ))
-                : null}
-              <TableCell style={{ textAlign: 'end' }} className={style['table-cell']}>
-                Navigation
-              </TableCell>
-            </TableRow>
-          </TableHead>
-
-          <TableBody>
-            {table?.vals.map((item, itemIndex) => (
-              <TableRow className={style['table-row']} key={itemIndex}>
-                {table.keys.map((key, keyIndex) => (
-                  <TableCell key={keyIndex} component="th" scope="row">
-                    <input
-                      onChange={e => handleInputChange(e, itemIndex)}
-                      className={style[itemIndex !== selectedRow ? 'off-inp' : 'on-inp']}
-                      disabled={itemIndex !== selectedRow}
-                      value={!inp[itemIndex][key] ? item[key] : inp[itemIndex][key]}
-                      name={key}
-                    />
+      {fields.length ? (
+        <TableContainer className={style['content-body']} component={Paper}>
+          <Table stickyHeader>
+            <TableHead>
+              <TableRow>
+                {fields.map((el, keyIndex) => (
+                  <TableCell className={style['table-cell']} key={keyIndex}>
+                    {el}
                   </TableCell>
                 ))}
 
-                <Navigation
-                  key={itemIndex}
-                  id={item.id}
-                  itemIndex={itemIndex}
-                  content={content}
-                  setSelectedRow={setSelectedRow}
-                  selectedRow={selectedRow}
-                  inp={inp}
-                  setInp={setInp}
-                />
+                <TableCell style={{ textAlign: 'end' }} className={style['table-cell']}>
+                  Navigation
+                </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
 
-      {open ? <ModalTab keys={table.keys} content={content} open={open} handleClose={handleClose} /> : null}
+            <TableBody>
+              {rows.map((item, itemIndex) => (
+                <TableRow className={style['table-row']} key={itemIndex}>
+                  {fields.map((key, keyIndex) => (
+                    <TableCell key={keyIndex} component="th" scope="row">
+                      <input
+                        onChange={e => handleInputChange(e, itemIndex)}
+                        className={style[itemIndex !== selectedRow || key === 'id' ? 'off-inp' : 'on-inp']}
+                        disabled={itemIndex !== selectedRow || key === 'id'}
+                        value={rows[itemIndex][key]}
+                        name={key}
+                      />
+                    </TableCell>
+                  ))}
+
+                  <Navigation
+                    key={itemIndex}
+                    id={item.id}
+                    itemIndex={itemIndex}
+                    content={content}
+                    setSelectedRow={setSelectedRow}
+                    selectedRow={selectedRow}
+                    rows={rows}
+                  />
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <p>Network error. Please refresh the page</p>
+      )}
+
+      {open ? <ModalTab keys={fields} content={content} open={open} handleClose={handleClose} /> : null}
     </div>
   );
 }

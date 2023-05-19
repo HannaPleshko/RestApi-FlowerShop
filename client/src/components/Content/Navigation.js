@@ -1,34 +1,33 @@
-import DeleteIcon from '@mui/icons-material/Delete';
-import CreateIcon from '@mui/icons-material/Create';
-import SaveIcon from '@mui/icons-material/Save';
-import RestartAlt from '@mui/icons-material/RestartAlt';
+import React from 'react';
 import { TableCell, IconButton } from '@mui/material';
+import { RestartAlt, Create, Save, Delete } from '@mui/icons-material';
 import axios from 'axios';
 import style from './Content.module.scss';
 
-function Navigation({ id, content, setSelectedRow, itemIndex, selectedRow, inp, setInp }) {
+function Navigation({ id, content, setSelectedRow, itemIndex, selectedRow, rows }) {
   const handleClick = () => {
     setSelectedRow(itemIndex);
   };
 
   const deleteSomeData = async () => {
     try {
-      console.log(id);
       await axios.delete(`${content}/${id}`);
       window.location.reload();
-    } catch (e) {
+    } catch (error) {
       alert('Network error. Please refresh the page');
-      console.log(e.message);
+      console.error(error.message);
     }
   };
+
   const updateSomeData = async () => {
     try {
-      await axios.put(`${content}/${id}`, inp);
-      setInp({});
+      const item = rows.find(el => el.id === id);
+      await axios.put(`${content}/${id}`, item);
       window.location.reload();
-    } catch (e) {
+      setSelectedRow(null);
+    } catch (error) {
       alert('Network error. Please refresh the page');
-      console.log(e.message);
+      console.error(error.message);
     }
   };
 
@@ -37,24 +36,28 @@ function Navigation({ id, content, setSelectedRow, itemIndex, selectedRow, inp, 
   };
 
   return (
-    <TableCell align="right" className={style['navigation']}>
-      {selectedRow === itemIndex ? (
+    <TableCell align="right" className={style.navigation}>
+      {selectedRow === itemIndex && (
         <>
-          <IconButton onClick={updateSomeData} aria-label="save">
-            <SaveIcon />
-          </IconButton>
-          <IconButton onClick={revert} aria-label="save">
+          <IconButton className={style.actionbtn} onClick={revert} aria-label="revert">
             <RestartAlt />
           </IconButton>
         </>
-      ) : null}
-      <IconButton aria-label="delete" onClick={deleteSomeData}>
-        <DeleteIcon />
+      )}
+
+      <IconButton className={style.deletebtn} aria-label="delete" onClick={deleteSomeData}>
+        <Delete />
       </IconButton>
 
-      <IconButton aria-label="create" onClick={handleClick}>
-        <CreateIcon />
-      </IconButton>
+      {selectedRow !== itemIndex ? (
+        <IconButton className={style.actionbtn} aria-label="create" onClick={handleClick}>
+          <Create />
+        </IconButton>
+      ) : (
+        <IconButton className={style.actionbtn} onClick={updateSomeData} aria-label="save">
+          <Save />
+        </IconButton>
+      )}
     </TableCell>
   );
 }

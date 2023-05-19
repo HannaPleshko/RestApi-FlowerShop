@@ -1,3 +1,4 @@
+import React from 'react';
 import Button from '@mui/material/Button';
 import style from './Header.module.scss';
 

@@ -2,11 +2,11 @@ const { pool } = require('../DB');
 
 async function getCustomerDB() {
   const client = await pool.connect();
-  const sql = 'SELECT * FROM Customer';
+  const sql = 'SELECT * FROM Customer ORDER BY id';
   const response = await client.query(sql);
   return {
     fields: response.fields.map(field => field.name),
-    rows: response.rows,
+    rows: response.rows
   };
 }
 

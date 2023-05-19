@@ -1,3 +1,4 @@
+import React from 'react';
 import HeaderItem from './HeaderItem';
 import style from './Header.module.scss';
 
