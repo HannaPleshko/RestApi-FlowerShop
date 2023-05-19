@@ -32,7 +32,6 @@ class ProductDB extends Database {
       const query = { text: 'SELECT * FROM Product ORDER BY id' };
 
       const { fields, rows } = await this.pool.query(query);
-      if (!rows.length) throw new HttpException(404, ExceptionType.DB_PRODUCT_NOT_FOUND);
 
       return {
         fields: fields.map(field => field.name),
