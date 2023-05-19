@@ -42,7 +42,7 @@ class CustomerController {
   deleteCustomer = async (req, res, next) => {
     try {
       const { id } = req.params;
-      res.status(200).send(await this.customerService.createCustomer(id));
+      res.status(200).send(await this.customerService.deleteCustomer(id));
     } catch (error) {
       next(error);
     }

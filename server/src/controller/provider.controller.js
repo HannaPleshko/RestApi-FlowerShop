@@ -42,7 +42,7 @@ class ProviderController {
   deleteProvider = async (req, res, next) => {
     try {
       const { id } = req.params;
-      res.status(200).send(await this.providerService.createProvider(id));
+      res.status(200).send(await this.providerService.deleteProvider(id));
     } catch (error) {
       next(error);
     }
