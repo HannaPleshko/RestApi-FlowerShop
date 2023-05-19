@@ -1,55 +1,52 @@
-const express = require('express');
-const { getProvider, getProviderById, createProvider, updateProvider, deleteProvider } = require('../service/provider.service');
-const route = express.Router();
+const { ProviderService } = require('../service/provider.service');
 
-route.get('/', async (req, res) => {
-  try {
-    const provider = await getProvider();
-    res.status(200).send(provider);
-  } catch (error) {
-    res.status(404).send(error.message);
-  }
-});
+class ProviderController {
+  providerService = new ProviderService();
 
-route.get('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const provider = await getProviderById(id);
-    res.status(200).send(provider);
-  } catch (error) {
-    res.status(404).send(error.message);
-  }
-});
+  getProviders = async (req, res, next) => {
+    try {
+      res.status(200).send(await this.providerService.getProviders());
+    } catch (error) {
+      next(error);
+    }
+  };
 
-route.post('/', async (req, res) => {
-  try {
-    const { providername } = req.body;
-    const provider = await createProvider(providername);
-    res.status(200).send(provider);
-  } catch (error) {
-    res.status(404).send(error.message);
-  }
-});
+  getProviderById = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      res.status(200).send(await this.providerService.getProviderById(id));
+    } catch (error) {
+      next(error);
+    }
+  };
 
-route.put('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { providername } = req.body;
-    const provider = await updateProvider(id, providername);
-    res.status(200).send(provider);
-  } catch (error) {
-    res.status(404).send(error.message);
-  }
-});
+  createProvider = async (req, res, next) => {
+    try {
+      const provider = req.body;
+      res.status(200).send(await this.providerService.createProvider(provider));
+    } catch (error) {
+      next(error);
+    }
+  };
 
-route.delete('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const provider = await deleteProvider(id);
-    res.status(200).send(provider);
-  } catch (error) {
-    res.status(404).send(error.message);
-  }
-});
+  updateProvider = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const provider = req.body;
+      res.status(200).send(await this.providerService.updateProvider(id, provider));
+    } catch (error) {
+      next(error);
+    }
+  };
 
-module.exports = route;
+  deleteProvider = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      res.status(200).send(await this.providerService.deleteProvider(id));
+    } catch (error) {
+      next(error);
+    }
+  };
+}
+
+module.exports = ProviderController;

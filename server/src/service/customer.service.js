@@ -1,28 +1,27 @@
-const { getCustomerDB, getCustomerByIdDB, createCustomerDB, updateCustomerDB, deleteCustomerDB } = require('../repository/customer.repository');
+const { CustomerDB } = require('../database/Classes/CustomerDB');
 
-async function getCustomer() {
-  const customer = await getCustomerDB();
-  return customer;
+class CustomerService {
+  customerDB = new CustomerDB();
+
+  async getCustomers() {
+    return await this.customerDB.getAll();
+  }
+
+  async getCustomerById(id) {
+    return await this.customerDB.getById(id);
+  }
+
+  async createCustomer(customer) {
+    return await this.customerDB.create(customer);
+  }
+
+  async updateCustomer(id, customer) {
+    return await this.customerDB.updateById(id, customer);
+  }
+
+  async deleteCustomer(id) {
+    return await this.customerDB.deleteById(id);
+  }
 }
 
-async function getCustomerById(id) {
-  const customer = await getCustomerByIdDB(id);
-  return customer;
-}
-
-async function createCustomer(customername) {
-  const customer = await createCustomerDB(customername);
-  return customer;
-}
-
-async function updateCustomer(id, customername) {
-  const customer = await updateCustomerDB(id, customername);
-  return customer;
-}
-
-async function deleteCustomer(id) {
-  const customer = await deleteCustomerDB(id);
-  return customer;
-}
-
-module.exports = { getCustomer, getCustomerById, createCustomer, updateCustomer, deleteCustomer };
+module.exports = { CustomerService };

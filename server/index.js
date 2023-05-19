@@ -1,5 +1,9 @@
-require('dotenv').config();
-const app = require('./src/app');
-const port = process.env.PORT;
+const App = require('./src/app');
+const CustomerRoute = require('./src/routes/customer.route');
+const ProviderRoute = require('./src/routes/provider.route');
+const ProductRoute = require('./src/routes/product.route');
+const SaleController = require('./src/routes/sale.route');
 
-app.listen(port, () => console.log(`server is running on port ${port}`));
+const app = new App([new CustomerRoute(), new ProviderRoute(), new ProductRoute(), new SaleController()]);
+
+app.listen();

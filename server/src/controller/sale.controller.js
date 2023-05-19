@@ -1,55 +1,52 @@
-const express = require('express');
-const { getSale, getSaleById, createSale, updateSale, deleteSale } = require('../service/sale.service');
-const route = express.Router();
+const { SaleService } = require('../service/sale.service');
 
-route.get('/', async (req, res) => {
-  try {
-    const sale = await getSale();
-    res.status(200).send(sale);
-  } catch (error) {
-    res.status(404).send(error.message);
-  }
-});
+class SaleController {
+  saleService = new SaleService();
 
-route.get('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const sale = await getSaleById(id);
-    res.status(200).send(sale);
-  } catch (error) {
-    res.status(404).send(error.message);
-  }
-});
+  getSales = async (req, res, next) => {
+    try {
+      res.status(200).send(await this.saleService.getSales());
+    } catch (error) {
+      next(error);
+    }
+  };
 
-route.post('/', async (req, res) => {
-  try {
-    const { product_id, customer_id, amount, cost } = req.body;
-    const sale = await createSale(product_id, customer_id, amount, cost);
-    res.status(200).send(sale);
-  } catch (error) {
-    res.status(404).send(error.message);
-  }
-});
+  getSaleById = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      res.status(200).send(await this.saleService.getSaleById(id));
+    } catch (error) {
+      next(error);
+    }
+  };
 
-route.put('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { product_id, customer_id, amount, cost } = req.body;
-    const sale = await updateSale(id, product_id, customer_id, amount, cost);
-    res.status(200).send(sale);
-  } catch (error) {
-    res.status(404).send(error.message);
-  }
-});
+  createSale = async (req, res, next) => {
+    try {
+      const sale = req.body;
+      res.status(200).send(await this.saleService.createSale(sale));
+    } catch (error) {
+      next(error);
+    }
+  };
 
-route.delete('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const sale = await deleteSale(id);
-    res.status(200).send(sale);
-  } catch (error) {
-    res.status(404).send(error.message);
-  }
-});
+  updateSale = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const sale = req.body;
+      res.status(200).send(await this.saleService.updateSale(id, sale));
+    } catch (error) {
+      next(error);
+    }
+  };
 
-module.exports = route;
+  deleteSale = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      res.status(200).send(await this.saleService.deleteSale(id));
+    } catch (error) {
+      next(error);
+    }
+  };
+}
+
+module.exports = SaleController;

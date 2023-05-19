@@ -1,28 +1,27 @@
-const { getProviderDB, getProviderByIdDB, createProviderDB, updateProviderDB, deleteProviderDB } = require('../repository/provider.repository');
+const { ProviderDB } = require('../database/Classes/ProviderDB');
 
-async function getProvider() {
-  const provider = await getProviderDB();
-  return provider;
+class ProviderService {
+  providerDB = new ProviderDB();
+
+  async getProviders() {
+    return await this.providerDB.getAll();
+  }
+
+  async getProviderById(id) {
+    return await this.providerDB.getById(id);
+  }
+
+  async createProvider(provider) {
+    return await this.providerDB.create(provider);
+  }
+
+  async updateProvider(id, provider) {
+    return await this.providerDB.updateById(id, provider);
+  }
+
+  async deleteProvider(id) {
+    return await this.providerDB.deleteById(id);
+  }
 }
 
-async function getProviderById(id) {
-  const provider = await getProviderByIdDB(id);
-  return provider;
-}
-
-async function createProvider(providername) {
-  const provider = await createProviderDB(providername);
-  return provider;
-}
-
-async function updateProvider(id, providername) {
-  const provider = await updateProviderDB(id, providername);
-  return provider;
-}
-
-async function deleteProvider(id) {
-  const provider = await deleteProviderDB(id);
-  return provider;
-}
-
-module.exports = { getProvider, getProviderById, createProvider, updateProvider, deleteProvider };
+module.exports = { ProviderService };
