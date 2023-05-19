@@ -1,10 +1,14 @@
-const { defaultPool } = require('../connection'); const { HttpException } = require('../../exceptions/HttpException'); const { ExceptionType } = require('../../exceptions/exceptions.type'); const createTables = async (pool = defaultPool) => {
+const { defaultPool } = require('../connection');
+const { HttpException } = require('../../exceptions/HttpException');
+const { ExceptionType } = require('../../exceptions/exceptions.type');
+const createTables = async (pool = defaultPool) => {
   try {
     const client = await pool.connect();
     await client.query('BEGIN');
 
-    await client.query(
-      ` 
+    await client
+      .query(
+        ` 
       CREATE TABLE IF NOT EXISTS PROVIDER ( 
         ID UUID DEFAULT MD5(RANDOM()::TEXT || CLOCK_TIMESTAMP()::TEXT)::UUID PRIMARY KEY, 
         ProviderName varchar(50) 
@@ -33,10 +37,12 @@ const { defaultPool } = require('../connection'); const { HttpException } = requ
         FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE, 
         FOREIGN KEY (customer_id) REFERENCES customer(id) ON DELETE CASCADE 
       ); 
-      `)
+      `,
+      )
       .catch(error => {
         if (error) {
-          console.log(error); throw new HttpException(500, ExceptionType.DB_INITIALIZE_NOT_INITIALIZED);
+          console.log(error);
+          throw new HttpException(500, ExceptionType.DB_INITIALIZE_NOT_INITIALIZED);
         }
       });
 
@@ -49,4 +55,4 @@ const { defaultPool } = require('../connection'); const { HttpException } = requ
     throw new HttpException(500, ExceptionType.DB_INITIALIZE_NOT_CONNECTED);
   }
 };
-module.exports = { createTables }
+module.exports = { createTables };

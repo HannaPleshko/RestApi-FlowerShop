@@ -1,7 +1,7 @@
 const { ProductDB } = require('../database/Classes/ProductDB');
 
 class ProductService {
-  productDB = new ProductDB()
+  productDB = new ProductDB();
 
   async getProducts() {
     return await this.productDB.getAll();

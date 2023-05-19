@@ -1,7 +1,7 @@
 const { CustomerDB } = require('../database/Classes/CustomerDB');
 
 class CustomerService {
-  customerDB = new CustomerDB()
+  customerDB = new CustomerDB();
 
   async getCustomers() {
     return await this.customerDB.getAll();

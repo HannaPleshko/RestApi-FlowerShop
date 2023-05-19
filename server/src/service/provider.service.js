@@ -1,7 +1,7 @@
 const { ProviderDB } = require('../database/Classes/ProviderDB');
 
 class ProviderService {
-  providerDB = new ProviderDB()
+  providerDB = new ProviderDB();
 
   async getProviders() {
     return await this.providerDB.getAll();

@@ -26,4 +26,4 @@ class ConnectionDB {
   }
 }
 
-module.exports = { ConnectionDB, defaultPool }
+module.exports = { ConnectionDB, defaultPool };

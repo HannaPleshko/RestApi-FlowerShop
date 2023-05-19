@@ -6,4 +6,4 @@ class Database extends ConnectionDB {
   }
 }
 
-module.exports = { Database }
+module.exports = { Database };
