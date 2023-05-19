@@ -10,7 +10,7 @@ function Content({ content }) {
   const [table, setTable] = useState();
   const [selectedRow, setSelectedRow] = useState(null);
   const [open, setOpen] = useState(false);
-  const [inp, setInp] = useState({});
+  const [inp, setInp] = useState([]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -20,16 +20,25 @@ function Content({ content }) {
       const response = (await axios.get(content)).data;
 
       const { fields, rows } = response;
+
+      const initialInp = rows.map(() => ({})); // Создаем отдельный объект inp для каждого ряда
+
       setTable({ vals: rows ?? [], keys: fields ?? [] });
+      setInp(initialInp);
     } catch (e) {
       alert('Network error. Please refresh the page');
       console.log(e.message);
     }
   };
 
-  const handleInputChange = e => {
+  const handleInputChange = (e, rowIndex) => {
     const { name, value } = e.target;
-    setInp(prevState => ({ ...prevState, [name]: value })); // todo
+
+    setInp(prevState => {
+      const updatedInp = [...prevState];
+      updatedInp[rowIndex] = { ...updatedInp[rowIndex], [name]: value };
+      return updatedInp;
+    });
   };
 
   useEffect(() => {
@@ -53,8 +62,8 @@ function Content({ content }) {
           <TableHead>
             <TableRow>
               {table?.keys?.length
-                ? table.keys.map(el => (
-                    <TableCell className={style['table-cell']} key={Math.random()}>
+                ? table.keys.map((el, keyIndex) => (
+                    <TableCell className={style['table-cell']} key={keyIndex}>
                       {el}
                     </TableCell>
                   ))
@@ -67,26 +76,28 @@ function Content({ content }) {
 
           <TableBody>
             {table?.vals.map((item, itemIndex) => (
-              <TableRow className={style['table-row']} key={Math.random()}>
-                {table.keys.map(key => (
-                  <TableCell key={Math.random()} component="th" scope="row">
+              <TableRow className={style['table-row']} key={itemIndex}>
+                {table.keys.map((key, keyIndex) => (
+                  <TableCell key={keyIndex} component="th" scope="row">
                     <input
-                      onChange={handleInputChange}
+                      onChange={e => handleInputChange(e, itemIndex)}
                       className={style[itemIndex !== selectedRow ? 'off-inp' : 'on-inp']}
                       disabled={itemIndex !== selectedRow}
-                      value={item[key]}
+                      value={!inp[itemIndex][key] ? item[key] : inp[itemIndex][key]}
+                      name={key}
                     />
                   </TableCell>
                 ))}
 
                 <Navigation
-                  key={Math.random()}
+                  key={itemIndex}
                   id={item.id}
                   itemIndex={itemIndex}
                   content={content}
                   setSelectedRow={setSelectedRow}
                   selectedRow={selectedRow}
                   inp={inp}
+                  setInp={setInp}
                 />
               </TableRow>
             ))}

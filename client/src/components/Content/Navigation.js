@@ -6,7 +6,7 @@ import { TableCell, IconButton } from '@mui/material';
 import axios from 'axios';
 import style from './Content.module.scss';
 
-function Navigation({ id, content, setSelectedRow, itemIndex, selectedRow, inp }) {
+function Navigation({ id, content, setSelectedRow, itemIndex, selectedRow, inp, setInp }) {
   const handleClick = () => {
     setSelectedRow(itemIndex);
   };
@@ -14,7 +14,7 @@ function Navigation({ id, content, setSelectedRow, itemIndex, selectedRow, inp }
   const deleteSomeData = async () => {
     try {
       console.log(id);
-      const resp = await axios.delete(`${content}/${id}`);
+      await axios.delete(`${content}/${id}`);
       window.location.reload();
     } catch (e) {
       alert('Network error. Please refresh the page');
@@ -23,9 +23,9 @@ function Navigation({ id, content, setSelectedRow, itemIndex, selectedRow, inp }
   };
   const updateSomeData = async () => {
     try {
-      console.log(inp);
-      // const resp = await axios.put(`${content}/${id}`);
-      // window.location.reload();
+      await axios.put(`${content}/${id}`, inp);
+      setInp({});
+      window.location.reload();
     } catch (e) {
       alert('Network error. Please refresh the page');
       console.log(e.message);
