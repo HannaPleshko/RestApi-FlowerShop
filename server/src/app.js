@@ -1,24 +1,48 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const product = require('./controller/products.controller');
-const provider = require('./controller/provider.controller');
-const customer = require('./controller/customer.controller');
-const sale = require('./controller/sale.controller');
+const { PORT } = require('./config');
+const { ConnectionDB, defaultPool } = require('./database/connection');
 const cors = require('cors');
+const { errorMiddleware } = require('./middlewares/error.middleware');
 
-const app = express();
+class App {
+  constructor(routes) {
+    this.app = express();
+    this.port = PORT;
+    this.database = new ConnectionDB(defaultPool);
 
-app.use(cors());
+    this.initializeMiddlewares();
+    this.initializeRoutes(routes);
+    this.database.initializeDB();
+  }
 
-app.use(bodyParser.json());
+  listen() {
+    this.app.listen(this.port, () => {
+      console.info(`╭───────────────────────────────────────────────────╮`);
+      console.info(`│                                                   │`);
+      console.info(`│            App listening at port ${this.port}!            │`);
+      console.info(`│                                                   │`);
+      console.info(`╰───────────────────────────────────────────────────╯`);
+    });
+  }
 
-app.use('/product', product);
-app.use('/provider', provider);
-app.use('/customer', customer);
-app.use('/sale', sale);
+  getServer() {
+    return this.app;
+  }
 
-app.use((error, req, res, next) => {
-  res.status(500).send(error.message);
-});
+  initializeMiddlewares() {
+    this.app.use(cors());
+    this.app.use(express.json());
+  }
 
-module.exports = app;
+  initializeRoutes(routes) {
+    routes.forEach(route => {
+      this.app.use('/', route.router);
+    });
+  }
+
+  initializeErrorHandling() {
+    this.app.use(errorMiddleware);
+  }
+}
+
+module.exports = App;

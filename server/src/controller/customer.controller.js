@@ -1,55 +1,52 @@
-const express = require('express');
-const { getCustomer, getCustomerById, createCustomer, updateCustomer, deleteCustomer } = require('../service/customer.service');
-const route = express.Router();
+const { CustomerService } = require('../service/customer.service');
 
-route.get('/', async (req, res) => {
-  try {
-    const customer = await getCustomer();
-    res.status(200).send(customer);
-  } catch (error) {
-    res.status(404).send(error.message);
-  }
-});
+class CustomerController {
+  customerService = new CustomerService();
 
-route.get('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const customer = await getCustomerById(id);
-    res.status(200).send(customer);
-  } catch (error) {
-    res.status(404).send(error.message);
-  }
-});
+  getCustomers = async (req, res, next) => {
+    try {
+      res.status(200).send(await this.customerService.getCustomers());
+    } catch (error) {
+      next(error);
+    }
+  };
 
-route.post('/', async (req, res) => {
-  try {
-    const { customername } = req.body;
-    const customer = await createCustomer(customername);
-    res.status(200).send(customer);
-  } catch (error) {
-    res.status(404).send(error.message);
-  }
-});
+  getCustomerById = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      res.status(200).send(await this.customerService.getCustomerById(id));
+    } catch (error) {
+      next(error);
+    }
+  };
 
-route.put('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { customername } = req.body;
-    const customer = await updateCustomer(id, customername);
-    res.status(200).send(customer);
-  } catch (error) {
-    res.status(404).send(error.message);
-  }
-});
+  createCustomer = async (req, res, next) => {
+    try {
+      const customer = req.body;
+      res.status(200).send(await this.customerService.createCustomer(customer));
+    } catch (error) {
+      next(error);
+    }
+  };
 
-route.delete('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const customer = await deleteCustomer(id);
-    res.status(200).send(customer);
-  } catch (error) {
-    res.status(404).send(error.message);
-  }
-});
+  updateCustomer = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const customer = req.body;
+      res.status(200).send(await this.customerService.updateCustomer(id, customer));
+    } catch (error) {
+      next(error);
+    }
+  };
 
-module.exports = route;
+  deleteCustomer = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      res.status(200).send(await this.customerService.createCustomer(id));
+    } catch (error) {
+      next(error);
+    }
+  };
+}
+
+module.exports = CustomerController;
